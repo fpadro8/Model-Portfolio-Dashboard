@@ -379,7 +379,15 @@ const PORTFOLIOS = [
   },
 ];
 
-const ALL_TICKERS = [...new Set([...PORTFOLIOS.flatMap(p => p.buckets.flatMap(b => b.tickers)), 'SPY', 'AGG', 'BIZD'])];
+const ALL_TICKERS = [...new Set([
+  ...PORTFOLIOS.flatMap(p => p.buckets.flatMap(b => b.tickers.map(t => getTickerSymbol(t)))),
+  'SPY', 'AGG', 'BIZD',
+])];
+
+function compoundReturns(returns) {
+  if (!returns.length) return null;
+  return returns.reduce((acc, r) => acc * (1 + r), 1) - 1;
+}
 
 // Quarter definitions
 // base    = quarter-start close (previous quarter-end)
@@ -672,9 +680,10 @@ function renderCard(p) {
   const qs = getActiveQuarters();
 
   // Columns: completed/active quarters first, then YTD, then Today
+  const quarterPeriods = qs.map(q => ({ label: q.label, fn: t => qRet(t, q) }));
   const periods = [
-    ...qs.map(q => ({ label: q.label, fn: t => qRet(t, q) })),
-    { label: 'YTD',   fn: ytdRet   },
+    ...quarterPeriods,
+    { label: 'YTD',   fn: null },
     { label: 'Today', fn: dailyRet },
   ];
 
@@ -692,8 +701,12 @@ function renderCard(p) {
     return sum;
   };
 
-  const portVals  = periods.map(pd => weightedRet(p, pd.fn));
-  const benchVals = periods.map(pd => bmRet(pd.fn));
+  const portQuarterVals = quarterPeriods.map(pd => weightedRet(p, pd.fn));
+  const benchQuarterVals = quarterPeriods.map(pd => bmRet(pd.fn));
+  const portYtd = compoundReturns(portQuarterVals.filter(v => v != null));
+  const benchYtd = compoundReturns(benchQuarterVals.filter(v => v != null));
+  const portVals  = [...portQuarterVals, portYtd, weightedRet(p, dailyRet)];
+  const benchVals = [...benchQuarterVals, benchYtd, bmRet(dailyRet)];
   const spreadVals = periods.map((_, i) => {
     const pv = portVals[i], bv = benchVals[i];
     return (pv != null && bv != null) ? pv - bv : null;
