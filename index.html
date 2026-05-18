@@ -329,15 +329,15 @@ const PORTFOLIOS = [
   {
     id: 'conservative', name: 'Conservative', color: '#388bfd',
     buckets: [
-      { label: 'Equities',      w: 0.0357,  tickers: [
+      { label: 'Equities',      w: 0.25,  tickers: [
           { symbol: 'BSTZ', w: 1/7 }, { symbol: 'BCAT', w: 1/7 }, { symbol: 'DVY', w: 1/7 },
           { symbol: 'IEMG', w: 1/7 }, { symbol: 'SCHD', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'NOBL', w: 1/7 },
         ] },
-      { label: 'Fixed Income',  w: 0.0667,  tickers: [
+      { label: 'Fixed Income',  w: 0.40,  tickers: [
           { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
           { symbol: 'PDO',  w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'PDI',  w: 1/6 },
         ] },
-      { label: 'BDCs',          w: 0.035,   tickers: [
+      { label: 'BDCs',          w: 0.35,   tickers: [
           { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
           { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
         ] },
@@ -346,15 +346,15 @@ const PORTFOLIOS = [
   {
     id: 'balanced', name: 'Balanced', color: '#a371f7',
     buckets: [
-      { label: 'Growth ETFs',   w: 0.064286, tickers: [
+      { label: 'Growth ETFs',   w: 0.45, tickers: [
           { symbol: 'SPGP', w: 1/7 }, { symbol: 'IEMG', w: 1/7 }, { symbol: 'IWY', w: 1/7 },
           { symbol: 'SCHG', w: 1/7 }, { symbol: 'SPYG', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'VONG', w: 1/7 },
         ] },
-      { label: 'Fixed Income',  w: 0.05,     tickers: [
+      { label: 'Fixed Income',  w: 0.30,     tickers: [
           { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
           { symbol: 'FMHI', w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'ICVT', w: 1/6 },
         ] },
-      { label: 'BDCs',          w: 0.025,    tickers: [
+      { label: 'BDCs',          w: 0.25,    tickers: [
           { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
           { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
         ] },
@@ -363,15 +363,15 @@ const PORTFOLIOS = [
   {
     id: 'aggressive', name: 'Aggressive', color: '#f0883e',
     buckets: [
-      { label: 'Growth ETFs',   w: 0.0857, tickers: [
+      { label: 'Growth ETFs',   w: 0.60, tickers: [
           { symbol: 'SPGP', w: 1/7 }, { symbol: 'IEMG', w: 1/7 }, { symbol: 'IWY', w: 1/7 },
           { symbol: 'SCHG', w: 1/7 }, { symbol: 'SPYG', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'VONG', w: 1/7 },
         ] },
-      { label: 'Fixed Income',  w: 0.025, tickers: [
+      { label: 'Fixed Income',  w: 0.15, tickers: [
           { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
           { symbol: 'FMHI', w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'ICVT', w: 1/6 },
         ] },
-      { label: 'BDCs',          w: 0.025, tickers: [
+      { label: 'BDCs',          w: 0.25, tickers: [
           { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
           { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
         ] },
@@ -384,9 +384,61 @@ const ALL_TICKERS = [...new Set([
   'SPY', 'AGG', 'BIZD',
 ])];
 
-function compoundReturns(returns) {
-  if (!returns.length) return null;
-  return returns.reduce((acc, r) => acc * (1 + r), 1) - 1;
+// Get quarterly rebalance date for a given quarter base
+function getRebalanceDate(quarterBase) {
+  const d = new Date(quarterBase + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + 91); // Approx 3 months forward
+  while (d.getUTCMonth() % 3 !== 2 || d.getUTCDate() !== 31) {
+    d.setUTCDate(d.getUTCDate() - 1);
+  }
+  return d.toISOString().slice(0, 10);
+}
+
+// Compute drifted weights within a quarter (before rebalance)
+function getDriftedWeights(portfolio, quarter) {
+  const weights = {};
+  const values = {};
+  let totalValue = 0;
+
+  for (const b of portfolio.buckets) {
+    const tickers = normalizeBucketTickers(b);
+    for (const t of tickers) {
+      const symbol = t.symbol;
+      const startWeight = b.w * t.weight;
+      const ret = qRet(symbol, quarter);
+      if (ret == null || isNaN(ret)) continue;
+      const currentValue = startWeight * (1 + ret);
+      values[symbol] = currentValue;
+      totalValue += currentValue;
+    }
+  }
+
+  if (totalValue === 0) {
+    return { weights, values, totalValue };
+  }
+
+  for (const symbol in values) {
+    weights[symbol] = values[symbol] / totalValue;
+  }
+
+  return { weights, values, totalValue };
+}
+
+function qRetWithDrift(ticker, quarter) {
+  const base = state.historical[ticker]?.[quarter.base];
+  if (!base || base === 0) return null;
+  const end = quarter.histEnd
+    ? state.historical[ticker]?.[quarter.histEnd]
+    : closedPrice(ticker);
+  if (!end) return null;
+  const endDate = quarter.histEnd || new Date().toISOString().slice(0, 10);
+  const div = sumDividends(ticker, dayAfter(quarter.base), endDate);
+  return (end + div - base) / base;
+}
+
+function getCurrentQuarter() {
+  const now = new Date();
+  return QUARTER_DEFS.find(q => now >= q.start && now <= q.end) || QUARTER_DEFS[QUARTER_DEFS.length - 1];
 }
 
 // Quarter definitions
@@ -727,13 +779,17 @@ function renderCard(p) {
     <div class="pt-label pt-spread-label">Spread</div>${spreadVals.map(v => `<div class="pt-val ${cls(v)} pt-spread-cell">${fmtRet(v)}</div>`).join('')}
   </div>`;
 
+  const currentQuarter = getCurrentQuarter();
+  const drifted = currentQuarter ? getDriftedWeights(p, currentQuarter) : { weights: {} };
+
   const bucketsHTML = p.buckets.map(b => {
     const bucketRet = bucketOwnRet(b, dailyRet);
-    const totalWt   = (b.w * 100).toFixed(1);
     const tickers   = normalizeBucketTickers(b);
+    const bucketDriftedWeight = tickers.reduce((sum, t) => sum + (drifted.weights[t.symbol] ?? 0), 0);
+    const totalWt = ((bucketDriftedWeight > 0 ? bucketDriftedWeight : b.w) * 100).toFixed(1);
     const rows = tickers.map(t => {
       const r = dailyRet(t.symbol);
-      const tickerWt = (b.w * t.weight * 100).toFixed(2);
+      const tickerWt = ((drifted.weights[t.symbol] ?? (b.w * t.weight)) * 100).toFixed(2);
       return `<div class="holding">
         <span class="h-tick">${t.symbol}</span>
         <span class="h-wt">${tickerWt}%</span>
