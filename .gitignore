@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pycache/
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment files
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# IDE/editor files
+*.log
+*.sqlite
+*.db
+*.DS_Store
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Local files
+*.tmp
+*.swp
