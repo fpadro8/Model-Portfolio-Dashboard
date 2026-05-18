@@ -487,7 +487,7 @@ async function initTicker(ticker, baseDates) {
 // Live refresh fetch: today's bar only
 async function liveTicker(ticker) {
   const result = await yahooChart(ticker, {
-    range: '1d', interval: '1d', includePrePost: false,
+    range: '2d', interval: '1d', includePrePost: false,
   });
   const meta    = result.meta;
   const q       = result.indicators?.quote?.[0];
