@@ -329,25 +329,52 @@ const PORTFOLIOS = [
   {
     id: 'conservative', name: 'Conservative', color: '#388bfd',
     buckets: [
-      { label: 'Equities',      w: 0.0357,  tickers: ['BSTZ','BCAT','DVY','IEMG','SCHD','VGK','NOBL'] },
-      { label: 'Fixed Income',  w: 0.0667,  tickers: ['PFFD','ANGL','VWOB','PDO','SRLN','PDI'] },
-      { label: 'BDCs',          w: 0.035,   tickers: ['TSLX','MAIN','ARCC','HTGC','CSWC','OBDC','GBDC','BXSL','TRIN','MSDL'] },
+      { label: 'Equities',      w: 0.0357,  tickers: [
+          { symbol: 'BSTZ', w: 1/7 }, { symbol: 'BCAT', w: 1/7 }, { symbol: 'DVY', w: 1/7 },
+          { symbol: 'IEMG', w: 1/7 }, { symbol: 'SCHD', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'NOBL', w: 1/7 },
+        ] },
+      { label: 'Fixed Income',  w: 0.0667,  tickers: [
+          { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
+          { symbol: 'PDO',  w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'PDI',  w: 1/6 },
+        ] },
+      { label: 'BDCs',          w: 0.035,   tickers: [
+          { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
+          { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
+        ] },
     ],
   },
   {
     id: 'balanced', name: 'Balanced', color: '#a371f7',
     buckets: [
-      { label: 'Growth ETFs',   w: 0.064286, tickers: ['SPGP','IEMG','IWY','SCHG','SPYG','VGK','VONG'] },
-      { label: 'Fixed Income',  w: 0.05,     tickers: ['PFFD','ANGL','VWOB','FMHI','SRLN','ICVT'] },
-      { label: 'BDCs',          w: 0.025,    tickers: ['TSLX','MAIN','ARCC','HTGC','CSWC','OBDC','GBDC','BXSL','TRIN','MSDL'] },
+      { label: 'Growth ETFs',   w: 0.064286, tickers: [
+          { symbol: 'SPGP', w: 1/7 }, { symbol: 'IEMG', w: 1/7 }, { symbol: 'IWY', w: 1/7 },
+          { symbol: 'SCHG', w: 1/7 }, { symbol: 'SPYG', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'VONG', w: 1/7 },
+        ] },
+      { label: 'Fixed Income',  w: 0.05,     tickers: [
+          { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
+          { symbol: 'FMHI', w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'ICVT', w: 1/6 },
+        ] },
+      { label: 'BDCs',          w: 0.025,    tickers: [
+          { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
+          { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
+        ] },
     ],
   },
   {
     id: 'aggressive', name: 'Aggressive', color: '#f0883e',
     buckets: [
-      { label: 'Growth ETFs',   w: 0.0857, tickers: ['SPGP','IEMG','IWY','SCHG','SPYG','VGK','VONG'] },
-      { label: 'Fixed Income',  w: 0.025, tickers: ['PFFD','ANGL','VWOB','FMHI','SRLN','ICVT'] },
-      { label: 'BDCs',          w: 0.025, tickers: ['TSLX','MAIN','ARCC','HTGC','CSWC','OBDC','GBDC','BXSL','TRIN','MSDL'] },
+      { label: 'Growth ETFs',   w: 0.0857, tickers: [
+          { symbol: 'SPGP', w: 1/7 }, { symbol: 'IEMG', w: 1/7 }, { symbol: 'IWY', w: 1/7 },
+          { symbol: 'SCHG', w: 1/7 }, { symbol: 'SPYG', w: 1/7 }, { symbol: 'VGK', w: 1/7 }, { symbol: 'VONG', w: 1/7 },
+        ] },
+      { label: 'Fixed Income',  w: 0.025, tickers: [
+          { symbol: 'PFFD', w: 1/6 }, { symbol: 'ANGL', w: 1/6 }, { symbol: 'VWOB', w: 1/6 },
+          { symbol: 'FMHI', w: 1/6 }, { symbol: 'SRLN', w: 1/6 }, { symbol: 'ICVT', w: 1/6 },
+        ] },
+      { label: 'BDCs',          w: 0.025, tickers: [
+          { symbol: 'TSLX', w: 0.1 }, { symbol: 'MAIN', w: 0.1 }, { symbol: 'ARCC', w: 0.1 }, { symbol: 'HTGC', w: 0.1 }, { symbol: 'CSWC', w: 0.1 },
+          { symbol: 'OBDC', w: 0.1 }, { symbol: 'GBDC', w: 0.1 }, { symbol: 'BXSL', w: 0.1 }, { symbol: 'TRIN', w: 0.1 }, { symbol: 'MSDL', w: 0.1 },
+        ] },
     ],
   },
 ];
@@ -553,6 +580,20 @@ function sumDividends(ticker, fromDate, toDate) {
   ), 0);
 }
 
+function getTickerSymbol(ticker) {
+  return typeof ticker === 'string' ? ticker : ticker.symbol;
+}
+
+function getTickerWeight(ticker) {
+  return typeof ticker === 'string' ? 1 : (ticker.w ?? 1);
+}
+
+function normalizeBucketTickers(bucket) {
+  const tickers = bucket.tickers.map(t => ({ symbol: getTickerSymbol(t), weight: getTickerWeight(t) }));
+  const total = tickers.reduce((sum, t) => sum + t.weight, 0);
+  return tickers.map(t => ({ symbol: t.symbol, weight: total ? t.weight / total : 0 }));
+}
+
 function dailyRet(ticker) {
   const q = state.live[ticker];
   if (!q?.price || !q?.previousClose || q.previousClose === 0) return null;
@@ -590,30 +631,38 @@ function ytdRet(ticker) {
 function weightedRet(portfolio, fn) {
   let sum = 0, covered = 0;
   for (const b of portfolio.buckets) {
-    for (const t of b.tickers) {
-      const r = fn(t);
-      if (r != null && !isNaN(r)) { sum += b.w * r; covered += b.w; }
+    const tickers = normalizeBucketTickers(b);
+    let bucketSum = 0, bucketCovered = 0;
+    for (const t of tickers) {
+      const r = fn(t.symbol);
+      if (r != null && !isNaN(r)) {
+        bucketSum += t.weight * r;
+        bucketCovered += t.weight;
+      }
+    }
+    if (bucketCovered > 0) {
+      sum += b.w * bucketSum / bucketCovered;
+      covered += b.w;
     }
   }
   return covered > 0 ? sum : null;
 }
 
 function weightedRetBucket(bucket, fn) {
+  const tickers = normalizeBucketTickers(bucket);
   let sum = 0, covered = 0;
-  for (const t of bucket.tickers) {
-    const r = fn(t);
-    if (r != null && !isNaN(r)) { sum += bucket.w * r; covered += bucket.w; }
+  for (const t of tickers) {
+    const r = fn(t.symbol);
+    if (r != null && !isNaN(r)) {
+      sum += t.weight * r;
+      covered += t.weight;
+    }
   }
-  return covered > 0 ? sum : null;
+  return covered > 0 ? sum / covered : null;
 }
 
 function bucketOwnRet(bucket, fn) {
-  let sum = 0, count = 0;
-  for (const t of bucket.tickers) {
-    const r = fn(t);
-    if (r != null && !isNaN(r)) { sum += r; count++; }
-  }
-  return count > 0 ? sum / count : null;
+  return weightedRetBucket(bucket, fn);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -667,12 +716,14 @@ function renderCard(p) {
 
   const bucketsHTML = p.buckets.map(b => {
     const bucketRet = bucketOwnRet(b, dailyRet);
-    const totalWt   = (b.w * b.tickers.length * 100).toFixed(1);
-    const rows = b.tickers.map(t => {
-      const r = dailyRet(t);
+    const totalWt   = (b.w * 100).toFixed(1);
+    const tickers   = normalizeBucketTickers(b);
+    const rows = tickers.map(t => {
+      const r = dailyRet(t.symbol);
+      const tickerWt = (b.w * t.weight * 100).toFixed(2);
       return `<div class="holding">
-        <span class="h-tick">${t}</span>
-        <span class="h-wt">${(b.w * 100).toFixed(2)}%</span>
+        <span class="h-tick">${t.symbol}</span>
+        <span class="h-wt">${tickerWt}%</span>
         <span class="h-spacer"></span>
         <span class="h-ret ${cls(r)}">${fmtRet(r)}</span>
       </div>`;
