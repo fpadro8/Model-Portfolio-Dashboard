@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Command python3, py, python3.exe, py.exe -ErrorAction SilentlyContinue)",
+      "PowerShell(python --version)",
+      "PowerShell(python -m pip install -r C:\\\\CODING\\\\requirements.txt)"
+    ]
+  }
+}
