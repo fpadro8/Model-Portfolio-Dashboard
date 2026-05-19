@@ -724,6 +724,16 @@ function weightedRet(portfolio, fn) {
   return covered > 0 ? sum : null;
 }
 
+function compoundReturns(values) {
+  if (!Array.isArray(values) || values.length === 0) return null;
+  let product = 1;
+  for (const value of values) {
+    if (value == null || isNaN(value)) return null;
+    product *= 1 + value;
+  }
+  return product - 1;
+}
+
 function weightedRetBucket(bucket, fn) {
   const tickers = normalizeBucketTickers(bucket);
   let sum = 0, covered = 0;
