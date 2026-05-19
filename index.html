@@ -521,12 +521,28 @@ function extractDividends(result) {
 async function yahooChart(ticker, params) {
   const qs  = Object.entries(params).map(([k, v]) => `${k}=${v}`).join('&');
   const url = `/api/chart/${ticker}?${qs}`;
-  const res = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} (${ticker})`);
-  const json = await res.json();
-  const result = json?.chart?.result?.[0];
-  if (!result) throw new Error(`No chart data (${ticker})`);
-  return result;
+  const controller = new AbortController();
+  const timeoutMs = 15_000;
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(url, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status} (${ticker})`);
+    const json = await res.json();
+    const result = json?.chart?.result?.[0];
+    if (!result) throw new Error(`No chart data (${ticker})`);
+    return result;
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error(`Request timed out (${ticker})`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function extractClose(result, targetDate) {
